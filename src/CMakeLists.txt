@@ -15,6 +15,9 @@ if(NOT EXISTS "${EH_DART_INCLUDE}/dart_native_api.h")
 endif()
 
 file(READ "${CMAKE_CURRENT_SOURCE_DIR}/cacert.pem" EH_CA_PEM)
+if(MSVC)
+  string(REPLACE "\n" ")ECH_CA_BUNDLE\"\n\"\\n\"\nR\"ECH_CA_BUNDLE(" EH_CA_PEM "${EH_CA_PEM}")
+endif()
 configure_file(ca_bundle.h.in "${CMAKE_CURRENT_BINARY_DIR}/ca_bundle.h" @ONLY)
 add_library(ech_http SHARED ech_http.cpp)
 # Imported includes default to -isystem, which can lose to a host OpenSSL
